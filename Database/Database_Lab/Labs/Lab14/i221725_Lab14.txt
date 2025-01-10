@@ -1,0 +1,153 @@
+> use lab14d
+switched to db lab14d
+> show dbs
+admin   0.000GB
+config  0.000GB
+lab13   0.000GB
+lab14   0.000GB
+local   0.000GB
+> create.collections("movies")
+uncaught exception: ReferenceError: create is not defined :
+@(shell):1:1
+> create.Collections("movies")
+uncaught exception: ReferenceError: create is not defined :
+@(shell):1:1
+> db.createCollection("movies")
+{ "ok" : 1 }
+> db.createCollection("reviews")
+{ "ok" : 1 }
+>
+> db.movies.insertMany([
+...     {
+...         "movieId": "1",
+...         "name": "Mission Impossible 14 - The AARP Threat",
+...         "pineappleMetric": 88,
+...         "releaseYear": "2018",
+...         "rating": "PG-13",
+...         "runtime": 136,
+...         "director": "Robert Silva",
+...         "writer": ["Mary Silva", "Mario Silva"],
+...         "productionCompany": {
+...             "prodCompanyName": "Rinse Wash Repeat",
+...             "prodCompanyLocation": "USA"
+...         },
+...         "budget": 127000000,
+...         "boxOffice": [32000000, 15000000]
+...     },
+...     {
+...         "movieId": "2",
+...         "name": "Die Hard - Resurrection",
+...         "pineappleMetric": 58,
+...         "releaseYear": "2019",
+...         "rating": "R",
+...         "runtime": 117,
+...         "director": "Joan Smith",
+...         "writer": ["Terry Smith", "Francine Smith"],
+...         "productionCompany": {
+...             "prodCompanyName": "Yippee-Ki-Yay",
+...             "prodCompanyLocation": "Australia"
+...         },
+...         "budget": 63000000,
+...         "boxOffice": [19000000, 7000000, 5300000]
+...     },
+...     {
+...         "movieId": "3",
+...         "name": "Fifty Shades Greener",
+...         "pineappleMetric": 35,
+...         "releaseYear": "2018",
+...         "rating": "PG",
+...         "runtime": 98,
+...         "director": "Cookie Muster",
+...         "writer": ["Elmo Jones", "Sue Bird"],
+...         "productionCompany": {
+...             "prodCompanyName": "Sesame Muppets",
+...             "prodCompanyLocation": "UK"
+...         },
+...         "budget": 17000000,
+...         "boxOffice": [58000000, 43000000, 27000000, 13000000]
+...     }
+... ])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("67502c67820e3b1b9d6ddbb5"),
+                ObjectId("67502c67820e3b1b9d6ddbb6"),
+                ObjectId("67502c67820e3b1b9d6ddbb7")
+        ]
+}
+>
+>
+> db.reviews.insertMany([
+...     {
+...         "reviewId": "1",
+...         "reviewAuthor": "Timmy Twopence",
+...         "reviewDate": "2019-07-23",
+...         "reviewText": "It is an unexpected pleasure to have John McClane back as a zombie...",
+...         "movieID": "2"
+...     },
+...     {
+...         "reviewId": "2",
+...         "reviewAuthor": "Sylvia Sterling",
+...         "reviewDate": "2018-06-12",
+...         "reviewText": "In this exciting movie, Ethan Hunt battles his worst enemy ever...",
+...         "movieID": "1"
+...     },
+...     {
+...         "reviewId": "3",
+...         "reviewAuthor": "Francis Pounder",
+...         "reviewDate": "2018-12-04",
+...         "reviewText": "Kermit the Frog against a nefarious industrialist trying to pollute the world...",
+...         "movieID": "3"
+...     }
+... ])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("67502c77820e3b1b9d6ddbb8"),
+                ObjectId("67502c77820e3b1b9d6ddbb9"),
+                ObjectId("67502c77820e3b1b9d6ddbba")
+        ]
+}
+>
+>
+>
+> db.movies.find({})
+{ "_id" : ObjectId("67502c67820e3b1b9d6ddbb5"), "movieId" : "1", "name" : "Mission Impossible 14 - The AARP Threat", "pineappleMetric" : 88, "releaseYear" : "2018", "rating" : "PG-13", "runtime" : 136, "director" : "Robert Silva", "writer" : [ "Mary Silva", "Mario Silva" ], "productionCompany" : { "prodCompanyName" : "Rinse Wash Repeat", "prodCompanyLocation" : "USA" }, "budget" : 127000000, "boxOffice" : [ 32000000, 15000000 ] }
+{ "_id" : ObjectId("67502c67820e3b1b9d6ddbb6"), "movieId" : "2", "name" : "Die Hard - Resurrection", "pineappleMetric" : 58, "releaseYear" : "2019", "rating" : "R", "runtime" : 117, "director" : "Joan Smith", "writer" : [ "Terry Smith", "Francine Smith" ], "productionCompany" : { "prodCompanyName" : "Yippee-Ki-Yay", "prodCompanyLocation" : "Australia" }, "budget" : 63000000, "boxOffice" : [ 19000000, 7000000, 5300000 ] }
+{ "_id" : ObjectId("67502c67820e3b1b9d6ddbb7"), "movieId" : "3", "name" : "Fifty Shades Greener", "pineappleMetric" : 35, "releaseYear" : "2018", "rating" : "PG", "runtime" : 98, "director" : "Cookie Muster", "writer" : [ "Elmo Jones", "Sue Bird" ], "productionCompany" : { "prodCompanyName" : "Sesame Muppets", "prodCompanyLocation" : "UK" }, "budget" : 17000000, "boxOffice" : [ 58000000, 43000000, 27000000, 13000000 ] }
+>
+>
+>
+> db.movies.find({ releaseYear: "2018" })
+{ "_id" : ObjectId("67502c67820e3b1b9d6ddbb5"), "movieId" : "1", "name" : "Mission Impossible 14 - The AARP Threat", "pineappleMetric" : 88, "releaseYear" : "2018", "rating" : "PG-13", "runtime" : 136, "director" : "Robert Silva", "writer" : [ "Mary Silva", "Mario Silva" ], "productionCompany" : { "prodCompanyName" : "Rinse Wash Repeat", "prodCompanyLocation" : "USA" }, "budget" : 127000000, "boxOffice" : [ 32000000, 15000000 ] }
+{ "_id" : ObjectId("67502c67820e3b1b9d6ddbb7"), "movieId" : "3", "name" : "Fifty Shades Greener", "pineappleMetric" : 35, "releaseYear" : "2018", "rating" : "PG", "runtime" : 98, "director" : "Cookie Muster", "writer" : [ "Elmo Jones", "Sue Bird" ], "productionCompany" : { "prodCompanyName" : "Sesame Muppets", "prodCompanyLocation" : "UK" }, "budget" : 17000000, "boxOffice" : [ 58000000, 43000000, 27000000, 13000000 ] }
+>
+>
+> db.movies.find({ pineappleMetric: { $lt: 50 } })
+{ "_id" : ObjectId("67502c67820e3b1b9d6ddbb7"), "movieId" : "3", "name" : "Fifty Shades Greener", "pineappleMetric" : 35, "releaseYear" : "2018", "rating" : "PG", "runtime" : 98, "director" : "Cookie Muster", "writer" : [ "Elmo Jones", "Sue Bird" ], "productionCompany" : { "prodCompanyName" : "Sesame Muppets", "prodCompanyLocation" : "UK" }, "budget" : 17000000, "boxOffice" : [ 58000000, 43000000, 27000000, 13000000 ] }
+>
+>
+>
+> db.movies.find({ "productionCompany.prodCompanyLocation": "UK" })
+{ "_id" : ObjectId("67502c67820e3b1b9d6ddbb7"), "movieId" : "3", "name" : "Fifty Shades Greener", "pineappleMetric" : 35, "releaseYear" : "2018", "rating" : "PG", "runtime" : 98, "director" : "Cookie Muster", "writer" : [ "Elmo Jones", "Sue Bird" ], "productionCompany" : { "prodCompanyName" : "Sesame Muppets", "prodCompanyLocation" : "UK" }, "budget" : 17000000, "boxOffice" : [ 58000000, 43000000, 27000000, 13000000 ] }
+>
+>
+>
+> db.movies.find({}, { name: 1, "boxOffice.0": 1, _id: 0 })
+{ "name" : "Mission Impossible 14 - The AARP Threat", "boxOffice" : [ ] }
+{ "name" : "Die Hard - Resurrection", "boxOffice" : [ ] }
+{ "name" : "Fifty Shades Greener", "boxOffice" : [ ] }
+>
+>
+>
+> db.movies.find({ "productionCompany.prodCompanyName": "Rinse Wash Repeat" })
+{ "_id" : ObjectId("67502c67820e3b1b9d6ddbb5"), "movieId" : "1", "name" : "Mission Impossible 14 - The AARP Threat", "pineappleMetric" : 88, "releaseYear" : "2018", "rating" : "PG-13", "runtime" : 136, "director" : "Robert Silva", "writer" : [ "Mary Silva", "Mario Silva" ], "productionCompany" : { "prodCompanyName" : "Rinse Wash Repeat", "prodCompanyLocation" : "USA" }, "budget" : 127000000, "boxOffice" : [ 32000000, 15000000 ] }
+>
+>
+>
+> db.reviews.find({ reviewDate: { $regex: "^2018" } })
+{ "_id" : ObjectId("67502c77820e3b1b9d6ddbb9"), "reviewId" : "2", "reviewAuthor" : "Sylvia Sterling", "reviewDate" : "2018-06-12", "reviewText" : "In this exciting movie, Ethan Hunt battles his worst enemy ever...", "movieID" : "1" }
+{ "_id" : ObjectId("67502c77820e3b1b9d6ddbba"), "reviewId" : "3", "reviewAuthor" : "Francis Pounder", "reviewDate" : "2018-12-04", "reviewText" : "Kermit the Frog against a nefarious industrialist trying to pollute the world...", "movieID" : "3" }
+>
+>
+>

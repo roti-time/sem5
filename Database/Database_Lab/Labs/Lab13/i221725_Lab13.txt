@@ -1,0 +1,93 @@
+use lab13
+
+db.createCollection("EMP")
+
+db.createCollection("DEPT")
+
+
+db.EMP.insertMany([
+  {
+    "EMPNO": 101,
+    "ENAME": "Niazi",
+    "JOB": "Manager",
+    "MGR": 100,
+    "HIREDATE": "2023-01-01",
+    "SAL": 27000.00,
+    "COMM": 5000.00,
+    "DEPTNO": 10
+  },
+  {
+    "EMPNO": 102,
+    "ENAME": "Alicia",
+    "JOB": "Clerk",
+    "MGR": 101,
+    "HIREDATE": "2022-03-15",
+    "SAL": 70000.00,
+    "COMM": 9500.00,
+    "DEPTNO": 20
+  },
+  {
+    "EMPNO": 103,
+    "ENAME": "Bob",
+    "JOB": "Analyst",
+    "MGR": 101,
+    "HIREDATE": "2023-06-10",
+    "SAL": 40000.00,
+    "COMM": 1200.00,
+    "DEPTNO": 30
+  },
+  {
+    "EMPNO": 104,
+    "ENAME": "Carol",
+    "JOB": "Salesman",
+    "MGR": 101,
+    "HIREDATE": "2023-08-22",
+    "SAL": 35000.00,
+    "COMM": 1000.00,
+    "DEPTNO": 10
+  },
+  {
+    "EMPNO": 105,
+    "ENAME": "David",
+    "JOB": "Clerk",
+    "MGR": 103,
+    "HIREDATE": "2023-11-01",
+    "SAL": 25000.00,
+    "COMM": 500.00,
+    "DEPTNO": 20
+  },
+  {
+    "EMPNO": 106,
+    "ENAME": "Eve",
+    "JOB": "Analyst",
+    "MGR": 101,
+    "HIREDATE": "2023-12-10",
+    "SAL": 45000.00,
+    "COMM": 1800.00,
+    "DEPTNO": 30
+  }
+]);
+
+
+db.DEPT.insertMany([
+  { "DEPTNO": 10, "DNAME": "Sales", "LOC": "Karachi" },
+  { "DEPTNO": 20, "DNAME": "HR", "LOC": "Lahore" },
+  { "DEPTNO": 30, "DNAME": "IT", "LOC": "Lahore" },
+  { "DEPTNO": 40, "DNAME": "Finance", "LOC": "Islamabad" },
+  { "DEPTNO": 50, "DNAME": "Operations", "LOC": "Islamabad" },
+  { "DEPTNO": 60, "DNAME": "Marketing", "LOC": "Karachi" }
+]);
+
+db.EMP.find().pretty();
+db.DEPT.find().pretty();
+
+db.EMP.find({}, { ENAME: 1, SAL: 1, _id: 0 });
+
+db.EMP.find({ COMM: null }, { ENAME: 1, JOB: 1, SAL: 1, _id: 0 });
+
+db.EMP.find({ SAL: { $gt: 1500 } }, { EMPNO: 1, ENAME: 1, JOB: 1, SAL: 1, _id: 0 }).pretty();
+
+db.EMP.find({ DEPTNO: 20 }, { ENAME: 1, _id: 0 });
+
+
+
