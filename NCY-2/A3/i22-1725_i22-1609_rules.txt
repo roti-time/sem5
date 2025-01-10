@@ -1,0 +1,30 @@
+				SNORT RULES FOR Networks & Cyber-II Assignment#3 
+			**The Rules are numbered according to the task in the assignment**
+
+
+
+
+
+1. alert icmp any any -> any any ( msg:"OYE TOO MUCH PING";detection_filter:track by_src, count 5, seconds 60; sid:1000004; rev:1; )
+
+2. alert tcp $EXTERNAL_NET any -> $HOME_NET 9000 (msg:"Injection Lag Gya SAR!!";  content:"+OR+"; nocase; fast_pattern; classtype:web-application-attack; sid:1000005;)
+
+3. alert tcp any any -> any any ( msg:"OYE Nmap SYN Scan Detected"; flags:S; sid:1000005; )
+   alert tcp any any -> $HOME_NET any ( msg:"OYE Nmap NULL Scan Detected"; flags:0; sid:1000006; )
+   alert tcp any any -> $HOME_NET any ( msg:"OYE Nmap FIN Scan Detected"; flags:F; sid:1000007; )
+   alert tcp any any -> $HOME_NET any ( msg:"OYE Nmap Xmas Scan Detected"; flags:FP; sid:1000008; )
+   alert tcp any any -> $HOME_NET any ( msg:"OYE Nmap ACK Scan Detected"; flags:A; sid:1000009; )
+
+4. alert ( msg:"ARP WALI SHIT HO RHI HAI"; sid:4; gid:112; rev:1; metadata:rule-type preproc; classtype:bad-unknown; )
+   alert arp any any -> any any (msg:"ARP HO RHA HAI"; detection_filter:track by_src, count 5, seconds 60; sid:1000010; rev:1;)
+
+5. alert tcp any any -> $HOME_NET 22 ( msg:"OYE SSH HONDA PYA NE"; flow:to_server,established; content:"SSH-"; detection_filter:track by_src, count 5, seconds 60; sid:1000001; rev:1; )
+
+6. alert tcp any any -> any 80 (msg:"Malicious HTTP Traffic Detected"; content:"User-Agent|3A| malicious";http_header; sid: 1000002;rev:1;)
+
+7. alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"VIRUS INBOUND bad file attachment - Macro"; flow:to_client,established; pcre:"/.*?\.(docm|dotm|xlsm|pptm|pptx|xlsb)[\x27\x22\n\r\s]/iR"; classtype:suspicious-filename-detect; sid:1000008; rev:3;)
+
+
+
+
+
