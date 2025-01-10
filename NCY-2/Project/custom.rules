@@ -1,0 +1,4 @@
+alert ip any any -> any any (msg:"Large File Transfer"; flow:established,to_server; content:"Content-Disposition|3a|"; content:"attachment"; file_data; file_size:>10485760; sid:1000002;)
+alert smtp any any -> any any (msg:"Large Email Attachment Detected"; flow:to_server,established; content:"Content-Disposition|3a| attachment"; content:"Content-Type|3a|"; file_data; file_size:>10485760; sid:1000003;)
+alert udp $HOME_NET any -> any any (msg:"Large UDP Data Transfer from Internal IP"; flow:to_server,established; content:"Content-Disposition|3a| attachment"; file_data; file_size:>5000; sid:100
+alert tls any any -> any any (msg:"Potential Data Exfiltration - Large Flow"; flow:established,to_server; threshold:type both, track by_dst, count 1, seconds 60; filesize:>5000; sid:1000003;)
