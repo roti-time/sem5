@@ -1,0 +1,136 @@
+<----------------------------- i22-1609 Ahmad Abdullah ------------------------------->
+
+
+1. mkdir C:\data\db
+2. mongod
+
+
+3. use lab13
+
+4. show dbs
+
+
+5. db.createCollection("EMP")
+
+
+6. show dbs
+
+7. addb.EMP.insertMany([{"EMPNO": 101, "ENAME": "Melon", "JOB": "Manager", "MGR": 100, "HIREDATE": "2023-01-01", "SAL": 50000.00, "COMM": 2000.00, "DEPTNO": 10}, {"EMPNO": 102, "ENAME": "Alice", "JOB": "Clerk", "MGR": 101, "HIREDATE": "2023-03-15", "SAL": 30000.00, "COMM": 1500.00, "DEPTNO": 20}, {"EMPNO": 103, "ENAME": "Bob", "JOB": "Analyst", "MGR": 101, "HIREDATE": "2023-06-10", "SAL": 40000.00, "COMM": 1200.00, "DEPTNO": 30}, {"EMPNO": 104, "ENAME": "Carol", "JOB": "Salesman", "MGR": 101, "HIREDATE": "2023-08-22", "SAL": 35000.00, "COMM": 1000.00, "DEPTNO": 10}, {"EMPNO": 105, "ENAME": "David", "JOB": "Clerk", "MGR": 103, "HIREDATE": "2023-11-01", "SAL": 25000.00, "COMM": 500.00, "DEPTNO": 20}, {"EMPNO": 106, "ENAME": "Eve", "JOB": "Analyst", "MGR": 101, "HIREDATE": "2023-12-10", "SAL": 45000.00, "COMM": 1800.00, "DEPTNO": 30}]);NAME": "Eve", "JOB": "Analyst", "MGR": 101, "HIREDATE": "2023-12-10", "SAL": 45000.00, "COMM": 1800.00, "DEPTNO": 30}])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("6746f45b40f3d333bdbe49f0"),
+                ObjectId("6746f45b40f3d333bdbe49f1"),
+                ObjectId("6746f45b40f3d333bdbe49f2"),
+                ObjectId("6746f45b40f3d333bdbe49f3"),
+                ObjectId("6746f45b40f3d333bdbe49f4"),
+                ObjectId("6746f45b40f3d333bdbe49f5")
+        ]
+}
+
+
+
+
+
+8. db.createCollection("DEPT")
+
+
+
+9. db.DEPT.insertMany([{"DEPTNO": 10, "DNAME": "Sales", "LOC": "New York"}, {"DEPTNO": 20, "DNAME": "HR", "LOC": "Boston"}, {"DEPTNO": 30, "DNAME": "IT", "LOC": "San Francisco"}, {"DEPTNO": 40, "DNAME": "Finance", "LOC": "Chicago"}, {"DEPTNO": 50, "DNAME": "Operations", "LOC": "Los Angeles"}, {"DEPTNO": 60, "DNAME": "Marketing", "LOC": "Seattle"}]);, {"DEPTNO
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("6746f4bc40f3d333bdbe49f6"),
+                ObjectId("6746f4bc40f3d333bdbe49f7"),
+                ObjectId("6746f4bc40f3d333bdbe49f8"),
+                ObjectId("6746f4bc40f3d333bdbe49f9"),
+                ObjectId("6746f4bc40f3d333bdbe49fa"),
+                ObjectId("6746f4bc40f3d333bdbe49fb")
+        ]
+}
+
+
+
+
+10. db.EMP.find().pretty();
+11. db.DEPT.find().pretty();
+
+
+
+12. db.EMP.find({}, {ENAME: 1, SAL: 1, _id: 0});
+{ "ENAME" : "Melon", "SAL" : 50000 }
+{ "ENAME" : "Alice", "SAL" : 30000 }
+{ "ENAME" : "Bob", "SAL" : 40000 }
+{ "ENAME" : "Carol", "SAL" : 35000 }
+{ "ENAME" : "David", "SAL" : 25000 }
+{ "ENAME" : "Eve", "SAL" : 45000 }
+{ "ENAME" : "Melon", "SAL" : 50000 }
+{ "ENAME" : "Alice", "SAL" : 30000 }
+{ "ENAME" : "Bob", "SAL" : 40000 }
+{ "ENAME" : "Carol", "SAL" : 35000 }
+{ "ENAME" : "David", "SAL" : 25000 }
+{ "ENAME" : "Eve", "SAL" : 45000 }
+{ "ENAME" : "Melon", "SAL" : 50000 }
+{ "ENAME" : "Alice", "SAL" : 30000 }
+{ "ENAME" : "Bob", "SAL" : 40000 }
+{ "ENAME" : "Carol", "SAL" : 35000 }
+{ "ENAME" : "David", "SAL" : 25000 }
+{ "ENAME" : "Eve", "SAL" : 45000 }
+{ "ENAME" : "George", "SAL" : 55000 }
+{ "ENAME" : "Helen", "SAL" : 46000 }
+
+
+
+
+13. db.EMP.find({COMM: null}, {ENAME: 1, JOB: 1, SAL: 1, _id: 0});
+{ "ENAME" : "George", "JOB" : "Manager", "SAL" : 55000 }
+{ "ENAME" : "Helen", "JOB" : "Analyst", "SAL" : 46000 }
+
+
+
+
+
+
+14. db.EMP.find({SAL: {$gt: 1500}}, {EMPNO: 1, ENAME: 1, JOB: 1, SAL: 1, _id: 0}).pretty();
+{ "EMPNO" : 101, "ENAME" : "Melon", "JOB" : "Manager", "SAL" : 50000 }
+{ "EMPNO" : 102, "ENAME" : "Alice", "JOB" : "Clerk", "SAL" : 30000 }
+{ "EMPNO" : 103, "ENAME" : "Bob", "JOB" : "Analyst", "SAL" : 40000 }
+{ "EMPNO" : 104, "ENAME" : "Carol", "JOB" : "Salesman", "SAL" : 35000 }
+{ "EMPNO" : 105, "ENAME" : "David", "JOB" : "Clerk", "SAL" : 25000 }
+{ "EMPNO" : 106, "ENAME" : "Eve", "JOB" : "Analyst", "SAL" : 45000 }
+{ "EMPNO" : 101, "ENAME" : "Melon", "JOB" : "Manager", "SAL" : 50000 }
+{ "EMPNO" : 102, "ENAME" : "Alice", "JOB" : "Clerk", "SAL" : 30000 }
+{ "EMPNO" : 103, "ENAME" : "Bob", "JOB" : "Analyst", "SAL" : 40000 }
+{ "EMPNO" : 104, "ENAME" : "Carol", "JOB" : "Salesman", "SAL" : 35000 }
+{ "EMPNO" : 105, "ENAME" : "David", "JOB" : "Clerk", "SAL" : 25000 }
+{ "EMPNO" : 106, "ENAME" : "Eve", "JOB" : "Analyst", "SAL" : 45000 }
+{ "EMPNO" : 101, "ENAME" : "Melon", "JOB" : "Manager", "SAL" : 50000 }
+{ "EMPNO" : 102, "ENAME" : "Alice", "JOB" : "Clerk", "SAL" : 30000 }
+{ "EMPNO" : 103, "ENAME" : "Bob", "JOB" : "Analyst", "SAL" : 40000 }
+{ "EMPNO" : 104, "ENAME" : "Carol", "JOB" : "Salesman", "SAL" : 35000 }
+{ "EMPNO" : 105, "ENAME" : "David", "JOB" : "Clerk", "SAL" : 25000 }
+{ "EMPNO" : 106, "ENAME" : "Eve", "JOB" : "Analyst", "SAL" : 45000 }
+{ "EMPNO" : 107, "ENAME" : "George", "JOB" : "Manager", "SAL" : 55000 }
+{ "EMPNO" : 108, "ENAME" : "Helen", "JOB" : "Analyst", "SAL" : 46000 }
+
+
+
+
+
+15. db.EMP.find({JOB: {$nin: ["Clerk", "Analyst", "Salesman"]}}, {ENAME: 1, JOB: 1, _id: 0});
+{ "ENAME" : "Melon", "JOB" : "Manager" }
+{ "ENAME" : "Melon", "JOB" : "Manager" }
+{ "ENAME" : "Melon", "JOB" : "Manager" }
+{ "ENAME" : "George", "JOB" : "Manager" }
+
+
+
+
+16. db.EMP.find({DEPTNO: 20}, {ENAME: 1, _id: 0});
+{ "ENAME" : "Alice" }
+{ "ENAME" : "David" }
+{ "ENAME" : "Alice" }
+{ "ENAME" : "David" }
+{ "ENAME" : "Alice" }
+{ "ENAME" : "David" }
+{ "ENAME" : "George" }
